@@ -1,12 +1,13 @@
 FROM node:20-alpine
 
-RUN apk add --no-cache ffmpeg git
+RUN apk add --no-cache ffmpeg
 
 WORKDIR /app
 
-RUN git clone https://github.com/PauloPabDev/audio-converter-api . \
-    && npm install --omit=dev \
-    && npm cache clean --force
+COPY package.json ./
+RUN npm install --omit=dev && npm cache clean --force
+
+COPY server.js ./
 
 ENV NODE_ENV=production
 ENV PORT=3009
